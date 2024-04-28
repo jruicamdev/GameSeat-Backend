@@ -36,6 +36,10 @@ builder.Services.AddCors(options =>
         builder => builder.WithOrigins("http://localhost:4200")
             .AllowAnyMethod()
             .AllowAnyHeader());
+    options.AddPolicy("AllowSpecificDeployOrigin",
+        builder => builder.WithOrigins("https://gameseat-front-aef0d4a36136.herokuapp.com")
+            .AllowAnyMethod()
+            .AllowAnyHeader());
 });
 
 
