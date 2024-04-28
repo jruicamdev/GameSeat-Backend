@@ -5,6 +5,7 @@ using GameSeat.Backend.Infrastructure.Interfaces;
 using GameSeat.Backend.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
@@ -23,7 +24,10 @@ builder.Services.AddScoped<IPasswordHasherService, PasswordHasherService>();
 
 
 builder.Services.AddDbContext<DataContext>(options =>
-    options.UseSqlServer("name=DefaultConnection"));
+    options.UseMySql(
+        builder.Configuration.GetConnectionString("DefaultConnection"),
+        ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("DefaultConnection"))
+    ));
 
 
 builder.Services.AddCors(options =>

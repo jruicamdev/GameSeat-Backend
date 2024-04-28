@@ -15,7 +15,21 @@ namespace GameSeat.Backend.Infrastructure.Data
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer();
+            if (!optionsBuilder.IsConfigured)
+            {
+                var databaseType = Environment.GetEnvironmentVariable("DATABASE_TYPE");
+                switch (databaseType)
+                {
+                    case "MSSQL":
+                        optionsBuilder.UseSqlServer(Environment.GetEnvironmentVariable("MSSQL_CONNECTION_STRING"));
+                        break;
+                    case "MYSQL":
+                        optionsBuilder.UseMySql(Environment.GetEnvironmentVariable("MYSQL_CONNECTION_STRING"), ServerVersion.AutoDetect(Environment.GetEnvironmentVariable("MYSQL_CONNECTION_STRING")));
+                        break;
+                    default:
+                        break;
+                }
+            }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
