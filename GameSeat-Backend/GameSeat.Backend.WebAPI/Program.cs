@@ -89,6 +89,7 @@ app.UseAuthentication();
 
 app.UseAuthorization();
 
+app.UseCors("AllowSpecificDeployOrigin");
 app.UseCors("AllowSpecificOrigin");
 
 app.UseRouting();
