@@ -17,10 +17,12 @@ builder.Services.AddControllers();
 //SCOPES
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
-builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IChairService, ChairService>();
 builder.Services.AddScoped<IChairRepository, ChairRepository>();
-builder.Services.AddScoped<IPasswordHasherService, PasswordHasherService>();
+builder.Services.AddScoped<IReservationRepository, ReservationRepository>();
+builder.Services.AddScoped<IReservationService, ReservationService>();
+builder.Services.AddScoped<IEstablishmentHourRepository, EstablishmentHourRepository>();
+builder.Services.AddScoped<IEstablishmentHourService, EstablishmentHourService>();
 
 
 builder.Services.AddDbContext<DataContext>(options =>
@@ -35,11 +37,13 @@ builder.Services.AddCors(options =>
     options.AddPolicy("AllowSpecificOrigin",
         builder => builder.WithOrigins("http://localhost:4200")
             .AllowAnyMethod()
+            .AllowCredentials()
             .AllowAnyHeader());
-    options.AddPolicy("AllowSpecificDeployOrigin",
-        builder => builder.WithOrigins("https://gameseat-front-aef0d4a36136.herokuapp.com")
-            .AllowAnyMethod()
-            .AllowAnyHeader());
+    //options.AddPolicy("AllowSpecificDeployOrigin",
+    //    builder => builder.WithOrigins("https://gameseat-front-aef0d4a36136.herokuapp.com")
+    //        .AllowAnyMethod()
+    //        .AllowCredentials()
+    //        .AllowAnyHeader());
 });
 
 
@@ -89,7 +93,7 @@ app.UseAuthentication();
 
 app.UseAuthorization();
 
-app.UseCors("AllowSpecificDeployOrigin");
+//app.UseCors("AllowSpecificDeployOrigin");
 app.UseCors("AllowSpecificOrigin");
 
 app.UseRouting();

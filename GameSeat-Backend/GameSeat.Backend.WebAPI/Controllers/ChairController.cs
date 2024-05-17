@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace GameSeat.Backend.WebAPI.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("chairs")]
     public class ChairsController : ControllerBase
     {
         private readonly IChairService _chairService;
@@ -53,7 +53,7 @@ namespace GameSeat.Backend.WebAPI.Controllers
                 return BadRequest();
             }
 
-            await _chairService.UpdateChairAsync(chair);
+            await _chairService.UpdateChairAsync(chair, id);
             return NoContent();
         }
 

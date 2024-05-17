@@ -2,6 +2,7 @@
 using GameSeat.Backend.Infrastructure.Data.DTOs;
 using GameSeat.Backend.Infrastructure.Data.Models;
 using GameSeat.Backend.Infrastructure.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GameSeat.Backend.WebAPI.Controllers
@@ -21,25 +22,18 @@ namespace GameSeat.Backend.WebAPI.Controllers
         }
 
         [HttpPost("register")]
-        public async Task<IActionResult> Register(UserDto userDto, bool? isAdmin)
+        public async Task<IActionResult> Register([FromBody]UserDto userDto,bool? isAdmin)
         {
+            try
+            {
             var result = await _userService.RegisterAsync(userDto, isAdmin);
             if (result.Success)
                 return Ok(result);
             return BadRequest(result);
-        }
-
-        [HttpPost("login")]
-        public async Task<TokenResult> Login([FromBody]Credentials credentials)
-        {
-            var result = await _userService.AuthenticateAsync(credentials.Username, credentials.Password);
-            TokenResult finalResult = new TokenResult { TokenString = string.Empty};
-            if (result!= "token.failed")
+            }catch (Exception ex)
             {
-                 finalResult = new TokenResult{ TokenString = result };
-
+                return BadRequest(ex);
             }
-            return finalResult;
         }
 
         [HttpGet]
@@ -49,10 +43,10 @@ namespace GameSeat.Backend.WebAPI.Controllers
             return Ok(users);
         }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetUser(int id)
+        [HttpGet("{email}")]
+        public async Task<IActionResult> GetUserByEmail(string email)
         {
-            var user = await _userService.GetUserByIdAsync(id);
+            var user = await _userService.GetUserByEmailAsync(email);
             if (user != null)
                 return Ok(user);
             return NotFound();

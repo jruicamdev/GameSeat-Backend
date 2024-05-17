@@ -7,7 +7,7 @@ namespace GameSeat.Backend.Infrastructure.Interfaces
         Task<IEnumerable<ChairModel>> GetAllChairsAsync();
         Task<ChairModel> GetChairByIdAsync(int id);
         Task CreateChairAsync(ChairModel chair);
-        Task UpdateChairAsync(ChairModel chair);
+        Task UpdateChairAsync(ChairModel chair, int chairId);
         Task DeleteChairAsync(int id);
     }
  

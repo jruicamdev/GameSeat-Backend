@@ -28,9 +28,9 @@ namespace GameSeat.Backend.Business.Services
             await _chairRepository.CreateChairAsync(chair);
         }
 
-        public async Task UpdateChairAsync(ChairModel chair)
+        public async Task UpdateChairAsync(ChairModel chair, int chairId)
         {
-            await _chairRepository.UpdateChairAsync(chair);
+            await _chairRepository.UpdateChairAsync(chair, chairId);
         }
 
         public async Task DeleteChairAsync(int id)

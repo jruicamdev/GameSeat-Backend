@@ -13,7 +13,7 @@ namespace GameSeat.Backend.Infrastructure.Data.Mappings
             builder.Property(e => e.Username).HasMaxLength(255);
             builder.Property(e => e.Email).HasMaxLength(255);
             builder.Property(e => e.Admin);
-            builder.Property(e => e.PasswordHash);
+            builder.Property(e => e.Image);
             builder.Property(e => e.Enable);
         }
     }
