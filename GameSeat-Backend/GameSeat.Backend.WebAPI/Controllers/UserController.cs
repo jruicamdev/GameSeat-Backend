@@ -70,5 +70,34 @@ namespace GameSeat.Backend.WebAPI.Controllers
             return BadRequest(result);
         }
 
+        [HttpPut("image/{id}")]
+        public async Task<IActionResult> UpdateUserImage([FromRoute]int id, [FromBody] int Image)
+        {
+            var updatedUser = await _userService.UpdateUserImageAsync(id, Image);
+            if (updatedUser != null)
+            {
+                return Ok(updatedUser);
+            }
+            return NotFound();
+        }
+
+        [HttpGet("admin/")]
+        public async Task<bool>UserIsAdmin([FromHeader]string email)
+        {
+            var user = await _userService.GetUserByEmailAsync(email);
+            if(user == null)
+            {
+                throw new ApplicationException("user.notfound");
+            }
+            if (user!.Admin)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
     }
 }

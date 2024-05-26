@@ -9,6 +9,8 @@ namespace GameSeat.Backend.Infrastructure.Interfaces
         Task CreateChairAsync(ChairModel chair);
         Task UpdateChairAsync(ChairModel chair, int chairId);
         Task DeleteChairAsync(int id);
+        Task UpdateChairStatusAsync(int id, bool isMaintenance);
+
     }
- 
+
 }

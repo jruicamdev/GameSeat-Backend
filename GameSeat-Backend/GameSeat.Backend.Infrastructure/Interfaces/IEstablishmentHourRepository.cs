@@ -7,5 +7,7 @@ namespace GameSeat.Backend.Infrastructure.Interfaces
         Task<IEnumerable<EstablishmentHourModel>> GetAllHoursAsync();
         Task UpdateHoursAsync(EstablishmentHourModel hours);
         Task<EstablishmentHourModel> GetHoursByIdAsync(int establishmentID);
+        Task<EstablishmentHourModel> GetByDayOfWeekAsync(string dayOfWeek);
+        Task UpdateAsync(EstablishmentHourModel establishmentHour);
     }
 }

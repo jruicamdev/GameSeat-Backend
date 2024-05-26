@@ -12,6 +12,6 @@ namespace GameSeat.Backend.Infrastructure.Interfaces
         Task<UserModel> UpdateAsync(UserModel user);
         Task<ServiceResultDTO> DeleteAsync(int id);
         Task<UserModel> GetUserByIdAsync(int id);
-
+        Task<UserModel> UpdateUserImageAsync(int id, int image);
     }
 }

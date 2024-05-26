@@ -69,5 +69,19 @@ namespace GameSeat.Backend.WebAPI.Controllers
             await _chairService.DeleteChairAsync(id);
             return NoContent();
         }
+
+        [HttpPut("{id}/status")]
+        public async Task<IActionResult> UpdateChairStatus(int id, [FromBody] bool isMaintenance)
+        {
+            try
+            {
+                await _chairService.UpdateChairStatusAsync(id, isMaintenance);
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

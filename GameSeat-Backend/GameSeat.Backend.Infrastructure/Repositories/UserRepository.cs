@@ -62,5 +62,19 @@ namespace GameSeat.Backend.Infrastructure.Repositories
             return await _context.Set<UserModel>().FindAsync(id);
         }
 
+        public async Task<UserModel> UpdateUserImageAsync(int id, int image)
+        {
+            var user = await _context.Users.FindAsync(id);
+            if (user == null)
+            {
+                return null;
+            }
+
+            user.Image = image;
+            _context.Entry(user).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+            return user;
+        }
+
     }
 }

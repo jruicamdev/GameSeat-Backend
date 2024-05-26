@@ -27,5 +27,17 @@ namespace GameSeat.Backend.Business.Services
         {
             await _repository.UpdateHoursAsync(hours);
         }
+
+        public async Task UpdatePriceForDayAsync(string dayOfWeek, int price)
+        {
+            var establishmentHour = await _repository.GetByDayOfWeekAsync(dayOfWeek);
+            if (establishmentHour == null)
+            {
+                throw new Exception("Day of week not found");
+            }
+
+            establishmentHour.PricePerHour = price;
+            await _repository.UpdateAsync(establishmentHour);
+        }
     }
 }

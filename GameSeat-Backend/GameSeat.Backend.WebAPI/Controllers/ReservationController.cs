@@ -1,6 +1,8 @@
-﻿using GameSeat.Backend.Infrastructure.Data.DTOs;
+﻿using GameSeat.Backend.Business.Services;
+using GameSeat.Backend.Infrastructure.Data.DTOs;
 using GameSeat.Backend.Infrastructure.Data.Models;
 using GameSeat.Backend.Infrastructure.Interfaces;
+using GameSeat.Backend.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GameSeat.Backend.WebAPI.Controllers
@@ -106,5 +108,35 @@ namespace GameSeat.Backend.WebAPI.Controllers
                 return BadRequest("Error processing request of date: " + ex.Message);
             }
         }
+
+        [HttpGet("by/{userId}")]
+        public async Task<ActionResult<IEnumerable<ReservationModel>>> GetReservationsByUserId([FromRoute]int userId)
+        {
+            var reservations = await _reservationService.GetReservationsByUserIdAsync(userId);
+            if (reservations == null)
+            {
+                return NotFound();
+            }
+            return Ok(reservations);
+        }
+
+        [HttpPost("cancel-or-confirm/{id}")]
+        public async Task<IActionResult> CancelOrConfirmReservation([FromRoute]int id, [FromBody] int status)
+        {
+            if (status != 1 && status != 2)
+            {
+                return BadRequest("Invalid status.");
+            }
+
+            var result = await _reservationService.CancelOrConfirmReservationAsync(id, status);
+            if (!result)
+            {
+                return NotFound();
+            }
+
+            return Ok("reserva.updated");
+        }
+
+
     }
 }

@@ -13,6 +13,7 @@ namespace GameSeat.Backend.Infrastructure.Data.Mappings
             builder.Property(e => e.DayOfWeek);
             builder.Property(e => e.OpeningTime);
             builder.Property(e => e.ClosingTime);
+            builder.Property(e => e.PricePerHour);
         }
     }
 }

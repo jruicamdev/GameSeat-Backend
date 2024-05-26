@@ -29,5 +29,24 @@ namespace GameSeat.Backend.Infrastructure.Repositories
         {
             return await _context.EstablishmentHours.FirstOrDefaultAsync(r => r.Id == establishmentID);
         }
+
+        public async Task<EstablishmentHourModel> GetByDayOfWeekAsync(string dayOfWeek)
+        {
+            if (string.IsNullOrEmpty(dayOfWeek))
+            {
+                throw new ArgumentException("Day of week must not be null or empty", nameof(dayOfWeek));
+            }
+
+            string normalizedDayOfWeek = dayOfWeek.Trim().ToLower();
+
+            return await _context.EstablishmentHours
+                .FirstOrDefaultAsync(e => e.DayOfWeek.Trim().ToLower() == normalizedDayOfWeek);
+        }
+
+        public async Task UpdateAsync(EstablishmentHourModel establishmentHour)
+        {
+            _context.EstablishmentHours.Update(establishmentHour);
+            await _context.SaveChangesAsync();
+        }
     }
 }

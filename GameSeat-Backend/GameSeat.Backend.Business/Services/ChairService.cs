@@ -37,6 +37,18 @@ namespace GameSeat.Backend.Business.Services
         {
             await _chairRepository.DeleteChairAsync(id);
         }
+
+        public async Task UpdateChairStatusAsync(int id, bool isMaintenance)
+        {
+            var chair = await _chairRepository.GetChairByIdAsync(id);
+            if (chair == null)
+            {
+                throw new Exception("Chair not found");
+            }
+
+            chair.Status = isMaintenance ? "maintenance" : "available";
+            await _chairRepository.UpdateChairAsync(chair, id);
+        }
     }
 }
 

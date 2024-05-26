@@ -65,6 +65,11 @@ namespace GameSeat.Backend.Business.Services
         {
             throw new NotImplementedException();
         }
+        public async Task<UserModel> UpdateUserImageAsync(int id, int image)
+        {
+            return await _userRepository.UpdateUserImageAsync(id, image);
+        }
+
 
     }
 }

@@ -1,4 +1,6 @@
-﻿using GameSeat.Backend.Infrastructure.Data.Models;
+﻿using GameSeat.Backend.Business.Services;
+using GameSeat.Backend.Infrastructure.Data.DTOs;
+using GameSeat.Backend.Infrastructure.Data.Models;
 using GameSeat.Backend.Infrastructure.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -38,6 +40,20 @@ namespace GameSeat.Backend.WebAPI.Controllers
             var hours = await _establishmentHoursService.GetHoursByIdAsync(establishmentId);
             if (hours == null) return NotFound();
             return Ok(hours);
+        }
+
+        [HttpPut("update-price")]
+        public async Task<IActionResult> UpdatePrice([FromBody] UpdatePriceDTO request)
+        {
+            try
+            {
+                await _establishmentHoursService.UpdatePriceForDayAsync(request.DayOfWeek, request.Price);
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }

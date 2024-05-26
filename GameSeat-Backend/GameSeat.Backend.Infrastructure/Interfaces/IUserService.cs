@@ -11,5 +11,6 @@ namespace GameSeat.Backend.Infrastructure.Interfaces
         Task<UserModel> GetUserByEmailAsync(string email);
         Task<ServiceResultDTO> UpdateUserAsync(int id, UserDto userDto);
         Task<ServiceResultDTO> DeleteUserAsync(int id);
+        Task<UserModel> UpdateUserImageAsync(int id, int image);
     }
 }

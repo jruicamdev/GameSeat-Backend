@@ -3,16 +3,22 @@ using GameSeat.Backend.Business.Services;
 using GameSeat.Backend.Infrastructure.Data;
 using GameSeat.Backend.Infrastructure.Interfaces;
 using GameSeat.Backend.Infrastructure.Repositories;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+
+    {
+
+        options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+
+        options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
+
+    });
 
 //SCOPES
 builder.Services.AddScoped<IUserRepository, UserRepository>();
@@ -23,7 +29,15 @@ builder.Services.AddScoped<IReservationRepository, ReservationRepository>();
 builder.Services.AddScoped<IReservationService, ReservationService>();
 builder.Services.AddScoped<IEstablishmentHourRepository, EstablishmentHourRepository>();
 builder.Services.AddScoped<IEstablishmentHourService, EstablishmentHourService>();
-
+builder.Services.AddScoped<IPaymentsRepository, PaymentsRepository>();
+builder.Services.AddScoped<IPaymentsService, PaymentsService>();
+builder.Services.AddScoped<IPdfService, PdfService>();
+builder.Services.AddScoped<StripeService>(serviceProvider =>
+{
+    var configuration = serviceProvider.GetRequiredService<IConfiguration>();
+    var apiKey = configuration["Stripe:SecretKey"];
+    return new StripeService(apiKey);
+});
 
 builder.Services.AddDbContext<DataContext>(options =>
     options.UseMySql(
@@ -46,25 +60,6 @@ builder.Services.AddCors(options =>
     //        .AllowAnyHeader());
 });
 
-
-builder.Services.AddAuthentication(options =>
-{
-    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-})
-    .AddJwtBearer(options =>
-    {
-        options.RequireHttpsMetadata = false;
-        options.SaveToken = true;
-        options.TokenValidationParameters = new TokenValidationParameters
-        {
-            ValidateIssuerSigningKey = true,
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Secret"])),
-            ValidateIssuer = false,
-            ValidateAudience = false,
-            ClockSkew = TimeSpan.Zero
-        };
-    });
 
 builder.Services.AddAuthorization();
 

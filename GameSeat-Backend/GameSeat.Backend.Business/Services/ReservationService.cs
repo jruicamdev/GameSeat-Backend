@@ -1,7 +1,7 @@
 ﻿using GameSeat.Backend.Infrastructure.Data.DTOs;
 using GameSeat.Backend.Infrastructure.Data.Models;
 using GameSeat.Backend.Infrastructure.Interfaces;
-using System.Runtime.InteropServices;
+
 
 
 namespace GameSeat.Backend.Business.Services
@@ -113,6 +113,22 @@ namespace GameSeat.Backend.Business.Services
             {
                 return (int)dayOfWeek;
             }
+        }
+
+        public async Task<IEnumerable<ReservationModel>> GetReservationsByUserIdAsync(int userId)
+        {
+            return await _reservationRepository.GetReservationsByUserIdAsync(userId);
+        }
+
+        public async Task<bool> CancelOrConfirmReservationAsync(int id, int status)
+        {
+            return await _reservationRepository.CancelOrConfirmReservationAsync(id, status);
+        }
+
+        public async Task<ReservationModel>GetReservationByIdAsync(int reservationId)
+        {
+            return await _reservationRepository.GetReservationByIdAsync(reservationId);
+
         }
     }
 }

@@ -8,7 +8,7 @@ namespace GameSeat.Backend.Infrastructure.Data.Mappings
     {
         public void Configure(EntityTypeBuilder<PaymentModel> builder)
         {
-            builder.ToTable("Payment");
+            builder.ToTable("Payments");
             builder.HasKey(e => e.Id);
             builder.Property(e => e.Amount);
             builder.Property(e => e.PaymentMethod).HasMaxLength(255);
