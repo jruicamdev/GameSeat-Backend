@@ -9,6 +9,6 @@ namespace GameSeat.Backend.Infrastructure.Data.Models
         public decimal Amount { get; set; }
         public required string PaymentMethod { get; set; }
         public DateTime CreatedAt { get; set; }
-        public virtual ReservationModel Reservation { get; set; }
+        public virtual ReservationModel? Reservation { get; set; }
     }
 }

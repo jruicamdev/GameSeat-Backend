@@ -8,30 +8,9 @@ namespace GameSeat.Backend.Business.Services
     public class UserService : IUserService
     {
         private readonly IUserRepository _userRepository;
-        private readonly IPasswordHasherService _passwordHasherService;
-        private readonly ITokenService _tokenService;
-        public UserService(IUserRepository userRepository, IPasswordHasherService passwordHasherService, ITokenService tokenService)
+        public UserService(IUserRepository userRepository)
         {
             _userRepository = userRepository;
-            _passwordHasherService = passwordHasherService;
-            _tokenService = tokenService;
-        }
-        public async Task<string> AuthenticateAsync(string username, string password)
-        {
-            try
-            {
-                var user = await _userRepository.AuthenticateAsync(username, password);
-                var token = string.Empty;
-                if(user.Id != 0)
-                {
-                    token = _tokenService.CreateToken(user);
-                }
-                return token;
-            }
-            catch (Exception)
-            {
-                return "token.failed";
-            }
         }
 
         public async Task<ServiceResultDTO> DeleteUserAsync(int id)
@@ -53,9 +32,9 @@ namespace GameSeat.Backend.Business.Services
             return users;
         }
 
-        public async Task<UserModel> GetUserByIdAsync(int id)
+        public async Task<UserModel> GetUserByEmailAsync(string email)
         {
-            UserModel user = await _userRepository.GetByIdAsync(id);
+            UserModel user = await _userRepository.GetByEmailAsync(email);
             return user;
         }
 
@@ -64,23 +43,21 @@ namespace GameSeat.Backend.Business.Services
 
             UserModel user = new UserModel
             {
-                Username = userDto.Username,
-                Email = userDto.Email,
-                PasswordHash = userDto.Password,
+                Username = userDto.Username!,
+                Email = userDto.Email!,
                 Admin = isAdmin ?? false,
                 Enable = true,
                 Id = 0,
             };
-            user.PasswordHash = _passwordHasherService.HashPassword(user);
 
             try
             {
                 await _userRepository.CreateAsync(user);
                 return new ServiceResultDTO(true, "user.created");
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return new ServiceResultDTO(false, "user.failed_created");
+                return new ServiceResultDTO(false, "user.failed_created" + ex);
             }
         }
 
@@ -88,6 +65,11 @@ namespace GameSeat.Backend.Business.Services
         {
             throw new NotImplementedException();
         }
+        public async Task<UserModel> UpdateUserImageAsync(int id, int image)
+        {
+            return await _userRepository.UpdateUserImageAsync(id, image);
+        }
+
 
     }
 }

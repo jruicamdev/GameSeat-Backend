@@ -11,12 +11,10 @@ namespace GameSeat.Backend.Infrastructure.Repositories
     {
 
         public readonly DataContext _context;
-        public readonly IPasswordHasherService _passwordHasherService;
 
-        public UserRepository(DataContext context, IPasswordHasherService passwordHasherService)
+        public UserRepository(DataContext context)
         {
             _context = context;
-            _passwordHasherService = passwordHasherService;
         }
 
         public async Task<IEnumerable<UserModel>> GetAllAsync()
@@ -24,9 +22,13 @@ namespace GameSeat.Backend.Infrastructure.Repositories
             return await _context.Users.ToListAsync();
         }
 
-        public async Task<UserModel> GetByIdAsync(int id)
+        public async Task<UserModel> GetByEmailAsync(string email)
         {
-            return await _context.Users.FindAsync(id);
+            if (string.IsNullOrWhiteSpace(email))
+                throw new ArgumentException("El email no puede estar vacío.", nameof(email));
+
+            return await _context.Users
+                       .FirstOrDefaultAsync(u => u.Email == email);
         }
 
         public async Task<UserModel> CreateAsync(UserModel user)
@@ -54,24 +56,24 @@ namespace GameSeat.Backend.Infrastructure.Repositories
             return new ServiceResultDTO(true, "user.delete_correct");
         }
 
-        public async Task<UserModel> AuthenticateAsync(string email, string password)
+       
+        public async Task<UserModel> GetUserByIdAsync(int id)
         {
-            UserModel user = await GetByUserNameAsync(email);
-
-            // Verify the password hash matches
-            ServiceResultDTO verified = _passwordHasherService.VerifyPassword(user, password);
-            if (verified.Message.Equals("Contraseña valida"))
-            {
-                return user;
-            }
-            else
-            {
-                return new UserModel();
-            }
+            return await _context.Set<UserModel>().FindAsync(id);
         }
-        public async Task<UserModel> GetByUserNameAsync(string username)
+
+        public async Task<UserModel> UpdateUserImageAsync(int id, int image)
         {
-            return await _context.Users.FirstOrDefaultAsync(u => u.Username == username);
+            var user = await _context.Users.FindAsync(id);
+            if (user == null)
+            {
+                return null;
+            }
+
+            user.Image = image;
+            _context.Entry(user).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+            return user;
         }
 
     }

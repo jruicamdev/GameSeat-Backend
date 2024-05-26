@@ -8,11 +8,12 @@ namespace GameSeat.Backend.Infrastructure.Data.Mappings
     {
         public void Configure(EntityTypeBuilder<EstablishmentHourModel> builder)
         {
-            builder.ToTable("EstablishmentHour");
+            builder.ToTable("EstablishmentHours");
             builder.HasKey(e => e.Id);
             builder.Property(e => e.DayOfWeek);
             builder.Property(e => e.OpeningTime);
             builder.Property(e => e.ClosingTime);
+            builder.Property(e => e.PricePerHour);
         }
     }
 }

@@ -31,7 +31,7 @@ namespace GameSeat.Backend.Infrastructure.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task UpdateChairAsync(ChairModel chair)
+        public async Task UpdateChairAsync(ChairModel chair, int chairId)
         {
             _context.Chairs.Update(chair);
             await _context.SaveChangesAsync();
