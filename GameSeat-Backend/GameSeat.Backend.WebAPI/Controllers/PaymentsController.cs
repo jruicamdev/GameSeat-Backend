@@ -92,7 +92,7 @@ namespace GameSeat.Backend.WebAPI.Controllers
             // Calculate total price based on reservation duration
             var service = new ProductService();
 
-            var sessionUrl = await _stripeService.CreateCheckoutSessionAsync(request.TotalAmount, "usd", successUrl!, cancelUrl!, 1, request.reservationID);
+            var sessionUrl = await _stripeService.CreateCheckoutSessionAsync(request.TotalAmount, "eur", successUrl!, cancelUrl!, 1, request.reservationID);
             return Ok(new { Url = sessionUrl });
         }
 

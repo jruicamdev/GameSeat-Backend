@@ -1,6 +1,5 @@
 ﻿using Stripe;
 using Stripe.Checkout;
-using static System.Net.WebRequestMethods;
 
 namespace GameSeat.Backend.Business.Services
 {
