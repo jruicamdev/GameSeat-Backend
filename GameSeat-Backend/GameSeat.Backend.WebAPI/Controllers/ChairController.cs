@@ -70,12 +70,15 @@ namespace GameSeat.Backend.WebAPI.Controllers
             return NoContent();
         }
 
-        [HttpPut("{id}/status")]
-        public async Task<IActionResult> UpdateChairStatus(int id, [FromBody] bool isMaintenance)
+        [HttpPut("maintenance")]
+        public async Task<IActionResult> UpdateChairStatus([FromBody] UpdateChairStatusModel model)
         {
             try
             {
-                await _chairService.UpdateChairStatusAsync(id, isMaintenance);
+                foreach (var id in model.Ids)
+                {
+                    await _chairService.UpdateChairStatusAsync(id, model.IsMaintenance);
+                }
                 return NoContent();
             }
             catch (Exception ex)
