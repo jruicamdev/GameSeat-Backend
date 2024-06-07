@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34322.80
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameSeat.Backend.Business", "GameSeat.Backend.Business\GameSeat.Backend.Business.csproj", "{0AF79F09-54ED-4F17-BDCB-E0431C245E68}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GameSeat.Backend.Business", "GameSeat.Backend.Business\GameSeat.Backend.Business.csproj", "{0AF79F09-54ED-4F17-BDCB-E0431C245E68}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameSeat.Backend.Infrastructure", "GameSeat.Backend.Infrastructure\GameSeat.Backend.Infrastructure.csproj", "{EFF030B1-45DA-4420-8824-9DAD8EAB46DF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GameSeat.Backend.Infrastructure", "GameSeat.Backend.Infrastructure\GameSeat.Backend.Infrastructure.csproj", "{EFF030B1-45DA-4420-8824-9DAD8EAB46DF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameSeat.Backend.WebAPI", "GameSeat.Backend.WebAPI\GameSeat.Backend.WebAPI.csproj", "{824F9B8D-E5FF-4C47-A0AD-3611F6D76BEF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GameSeat.Backend.WebAPI", "GameSeat.Backend.WebAPI\GameSeat.Backend.WebAPI.csproj", "{824F9B8D-E5FF-4C47-A0AD-3611F6D76BEF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

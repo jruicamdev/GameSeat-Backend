@@ -48,16 +48,16 @@ builder.Services.AddDbContext<DataContext>(options =>
 
 builder.Services.AddCors(options =>
 {
-    //options.AddPolicy("AllowSpecificOrigin",
-    //    builder => builder.WithOrigins("http://localhost:4200")
-    //        .AllowAnyMethod()
-    //        .AllowCredentials()
-    //        .AllowAnyHeader());
-    options.AddPolicy("AllowSpecificDeployOrigin",
-        builder => builder.WithOrigins("https://gameseat-front-aef0d4a36136.herokuapp.com")
+    options.AddPolicy("AllowSpecificOrigin",
+        builder => builder.WithOrigins("http://localhost:4200")
             .AllowAnyMethod()
             .AllowCredentials()
             .AllowAnyHeader());
+    //options.AddPolicy("AllowSpecificDeployOrigin",
+    //    builder => builder.WithOrigins("https://gameseat-front-aef0d4a36136.herokuapp.com")
+    //        .AllowAnyMethod()
+    //        .AllowCredentials()
+    //        .AllowAnyHeader());
 });
 
 
@@ -88,8 +88,8 @@ app.UseAuthentication();
 
 app.UseAuthorization();
 
-app.UseCors("AllowSpecificDeployOrigin");
-//app.UseCors("AllowSpecificOrigin");
+//app.UseCors("AllowSpecificDeployOrigin");
+app.UseCors("AllowSpecificOrigin");
 
 app.UseRouting();
 

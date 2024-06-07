@@ -134,7 +134,7 @@ namespace GameSeat.Backend.WebAPI.Controllers
                 return NotFound();
             }
 
-            return Ok("reserva.updated");
+            return Ok();
         }
 
 

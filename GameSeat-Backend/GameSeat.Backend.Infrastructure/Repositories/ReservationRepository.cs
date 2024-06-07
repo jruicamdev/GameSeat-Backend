@@ -24,6 +24,7 @@ namespace GameSeat.Backend.Infrastructure.Repositories
         {
             return await _context.Reservations
                 .Include(p => p.User)
+                .Include(p => p.Payments)
                 .ToListAsync();
         }
 
@@ -107,7 +108,7 @@ namespace GameSeat.Backend.Infrastructure.Repositories
             {
                 return false;
             }
-            var statusString =  "hey";
+            string statusString;
             if(status == 1)
             {
                 statusString = "Canceled";
